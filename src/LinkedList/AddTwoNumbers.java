@@ -32,6 +32,8 @@ public class AddTwoNumbers {
      * Tricky part: one list node becomes null (check for nulls), BOTH list nodes become null
      * BUT carry digit is not zero. In these cases the loop should still go through. The ending
      * condition is that, both lists reach end AND carry digit is zero.
+     *
+     * Time complexity: O(n). Space complexity: O(1)
      */
     class Solution1 {
         public ListNode addTwoNumbers(ListNode l1, ListNode l2) {

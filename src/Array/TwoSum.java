@@ -30,7 +30,7 @@ public class TwoSum {
      * index array, which is sorted based on values in nums array. Alternatively, one can use a map to keep
      * track of value-index pairs, and in the final step do a look up to get the indices.
      *
-     * Time complexity: O(n * log(n)). Space Complexity: O(n)
+     * Time complexity: O(n * log(n)). Space complexity: O(n)
      */
     class Solution1 {
         public int[] twoSum(int[] nums, int target) {
@@ -64,7 +64,7 @@ public class TwoSum {
      * to form a solution, this algorithm guarantees that this solution will get visited -
      * when iterating to the second number.
      *
-     * Time complexity: O(n). Space Complexity: O(n)
+     * Time complexity: O(n). Space complexity: O(n)
      */
     class Solution2 {
         public int[] twoSum(int[] nums, int target) {

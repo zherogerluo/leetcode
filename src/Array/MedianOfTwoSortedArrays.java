@@ -41,6 +41,8 @@ public class MedianOfTwoSortedArrays {
      * Tricky part #2:
      *
      * The partition can range from 0 to m, not just m-1. Be sure to check array index bounds very carefully.
+     *
+     * Time complexity: O(log(min(m, n))). Space complexity: O(1)
      */
     class Solution1 {
         public double findMedianSortedArrays(int[] nums1, int[] nums2) {

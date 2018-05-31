@@ -30,6 +30,8 @@ public class LongestSubstringWithoutRepeatingCharacters {
      *
      * Other thoughts: Use array to replace hash map for better performance, if the character set is know
      * (ASCII for example, use int[256])
+     *
+     * Time complexity: O(n). Space complexity: O(n)
      */
     class Solution1 {
         public int lengthOfLongestSubstring(String s) {
