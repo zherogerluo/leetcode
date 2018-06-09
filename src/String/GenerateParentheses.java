@@ -84,6 +84,27 @@ public class GenerateParentheses {
 
     /**
      * Solution 3: Dynamic programming
+     *
+     * To construct solution for n (call it f[n]), we can put down a pair "()" and try to insert stuff in it.
+     * Possible solutions are: (f[0])f[n-1], (f[1])f[n-2], ... (f[n-2])f[1], (f[n-1])f[0], and these altogethers
+     * makes f[n].
      */
-    // TODO
+    class Solution3 {
+        public List<String> generateParenthesis(int n) {
+            List<String>[] res = new List[n+1]; // note the size is n+1
+            res[0] = new ArrayList<>();
+            res[0].add("");
+            for (int i = 1; i <= n; i++) {
+                res[i] = new ArrayList<>();
+                for (int j = 0; j < i; j++) {
+                    for (String s1 : res[j]) {
+                        for (String s2 : res[i-j-1]) {
+                            res[i].add("(" + s1 + ")" + s2);
+                        }
+                    }
+                }
+            }
+            return res[n];
+        }
+    }
 }
