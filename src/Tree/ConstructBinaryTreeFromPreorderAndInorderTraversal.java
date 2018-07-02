@@ -42,7 +42,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
      *
      * Tricky part: The indexes after splitting need to be taken care of very cautiously.
      *
-     * Time complexity: O(n^2) because of linear search. Space complexity: O(n) because of call stack.
+     * Time complexity: O(n^2) because of linear search. Space complexity: O(h) because of call stack.
      */
     class Solution1 {
         public TreeNode buildTree(int[] preorder, int[] inorder) {
@@ -72,7 +72,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
      *
      * Same as Solution 1 except using a hash map for O(1) index look up in inorder.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h).
      */
     class Solution2 {
         public TreeNode buildTree(int[] preorder, int[] inorder) {
@@ -103,7 +103,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
      *
      * Tricky part: Usage of this bound. Increment inorder index to skip the root value in inorder array.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h).
      */
     class Solution3 {
         int i, j;
@@ -136,7 +136,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
      *              3) Check for array bound when trying to move to the right child
      *              4) Pre-processing: Set i = 1 and push the root to stack before the main loop.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h).
      */
     class Solution4 {
         public TreeNode buildTree(int[] preorder, int[] inorder) {

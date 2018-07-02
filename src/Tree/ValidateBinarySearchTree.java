@@ -50,7 +50,7 @@ public class ValidateBinarySearchTree {
      *
      * Tricky part: Node value can be min and max int, so use min and max of long type as starting range.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h).
      */
     class Solution1 {
         public boolean isValidBST(TreeNode root) {
@@ -70,7 +70,7 @@ public class ValidateBinarySearchTree {
      * In-order traversal, record last seen value and compare current value to last. Again the last value should
      * start with min of long type, not int type, otherwise cannot handle valid min int node.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h).
      */
     class Solution2 {
         public boolean isValidBST(TreeNode root) {

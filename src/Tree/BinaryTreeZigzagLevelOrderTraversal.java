@@ -38,7 +38,7 @@ public class BinaryTreeZigzagLevelOrderTraversal {
      *
      * Standard level-order traversal, except to add value to start or end of list depending on the reverse boolean.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(n) because queue size is n/2 for leaf level.
      */
     class Solution1 {
         public List<List<Integer>> zigzagLevelOrder(TreeNode root) {

@@ -32,7 +32,10 @@ public class BinaryTreeInorderTraversal {
     /**
      * Solution 1: Recursion. Easy.
      *
-     * Time complexity: O(n). Space complexity: O(n) (call stack).
+     * Time complexity: O(n). Space complexity: O(h) where h is the tree height.
+     *
+     * Space complexity is not O(n) here because for each call the deepest call depth will be h and after that the
+     * stack memory space will be reused.
      */
     class Solution1 {
         public List<Integer> inorderTraversal(TreeNode root) {
@@ -52,7 +55,7 @@ public class BinaryTreeInorderTraversal {
      * its value. If the popped node has right child, then go to right child and again push its left child to stack.
      * Do this until stack is empty.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h).
      */
     class Solution2 {
         public List<Integer> inorderTraversal(TreeNode root) {
@@ -111,7 +114,7 @@ public class BinaryTreeInorderTraversal {
      *
      * This method can be easily modified to do pre- or post-order traversal in iterative fashion.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(n) because of hash set.
      */
     class Solution4 {
         public List<Integer> inorderTraversal(TreeNode root) {

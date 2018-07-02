@@ -39,7 +39,7 @@ public class BinaryTreeLevelOrderTraversal {
      * Typical level-order traversal, breadth-first-search. One thing to note is to record initial size of queue and
      * only poll this many nodes for one level.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(n) (queue size will be n/2 for leaf level).
      */
     class Solution1 {
         public List<List<Integer>> levelOrder(TreeNode root) {
@@ -68,7 +68,7 @@ public class BinaryTreeLevelOrderTraversal {
      * Do DFS and add the node to the given depth. This won't work if the required result is a single list (but we
      * can still concatenate lists to fulfill that). Not a standard queue-based BFS but good idea.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(h) where h is tree height.
      */
     class Solution2 {
         public List<List<Integer>> levelOrder(TreeNode root) {
