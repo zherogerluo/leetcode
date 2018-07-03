@@ -33,16 +33,6 @@ import java.util.*;
 
 public class ValidateBinarySearchTree {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Recursion
      *
      * Helper function to validate a BST with given range, and split the range by root value and recursively call

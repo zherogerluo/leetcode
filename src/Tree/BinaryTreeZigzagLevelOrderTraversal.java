@@ -24,16 +24,6 @@ import java.util.*;
 
 public class BinaryTreeZigzagLevelOrderTraversal {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Iterative, standard level-order traversal BFS
      *
      * Standard level-order traversal, except to add value to start or end of list depending on the reverse boolean.

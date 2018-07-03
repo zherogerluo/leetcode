@@ -25,16 +25,6 @@ import java.util.*;
 
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Divide and conquer
      *
      * Preorder: root[left][right]. Inorder: [left]root[right]. We know that the starting element in preorder is the

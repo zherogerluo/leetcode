@@ -23,16 +23,6 @@ package Tree;
 
 public class ConvertSortedArrayToBinarySearchTree {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Recursion, divide and conquer
      *
      * Divide range by half to make sure the BST is balanced. Build tree with mid value as the root, and divide to

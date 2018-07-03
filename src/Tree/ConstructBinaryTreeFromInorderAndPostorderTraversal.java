@@ -23,16 +23,6 @@ package Tree;
 
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Recursion
      *
      * This problem is almost exactly the same as Problem #105, except that we start from end of both arrays and

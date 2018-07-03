@@ -24,16 +24,6 @@ import java.util.*;
 
 public class BinaryTreeLevelOrderTraversal {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Iterative, level-order traversal using a queue
      *
      * Typical level-order traversal, breadth-first-search. One thing to note is to record initial size of queue and

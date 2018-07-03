@@ -20,16 +20,6 @@ import java.util.*;
 
 public class BinaryTreeInorderTraversal {
     /**
-     * Definition for a binary tree node.
-     */
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Recursion. Easy.
      *
      * Time complexity: O(n). Space complexity: O(h) where h is the tree height.
