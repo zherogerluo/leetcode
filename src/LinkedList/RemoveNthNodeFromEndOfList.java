@@ -20,12 +20,6 @@
 package LinkedList;
 
 public class RemoveNthNodeFromEndOfList {
-    public class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
-
     /**
      * Solution 1: Two pointers
      *

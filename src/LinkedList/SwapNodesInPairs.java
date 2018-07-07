@@ -16,15 +16,6 @@ package LinkedList;
 
 public class SwapNodesInPairs {
     /**
-     * Definition for singly-linked list.
-     */
-    public class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Loop
      *
      * prev -> head -> tail -> after. Swap head and tail each time, and update all pointers. Check for nulls.

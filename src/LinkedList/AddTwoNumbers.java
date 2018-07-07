@@ -16,15 +16,6 @@ package LinkedList;
 
 public class AddTwoNumbers {
     /**
-     * Definition for singly-linked list.
-     */
-    public class ListNode {
-     int val;
-     ListNode next;
-     ListNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Linked list traversal
      *
      * Traverse two linked lists at the same time, keeping record of the carry digit (0 or 1).

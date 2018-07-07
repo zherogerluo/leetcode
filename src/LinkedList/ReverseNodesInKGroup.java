@@ -23,15 +23,6 @@ package LinkedList;
 
 public class ReverseNodesInKGroup {
     /**
-     * Definition for singly-linked list.
-     */
-        public class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Loop, reverse segments one by one
      *
      * Use a helper function that reverse k nodes after the given prev node, and returns the new prev node for next

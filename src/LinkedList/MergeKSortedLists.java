@@ -20,15 +20,6 @@ import java.util.*;
 
 public class MergeKSortedLists {
     /**
-     * Definition for singly-linked list.
-     */
-    public class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
-
-    /**
      * Solution 1: Priority queue (heap)
      *
      * Keep a min heap that stores the head nodes for all lists. Each time poll the small list one and add to the
