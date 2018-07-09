@@ -1,26 +1,30 @@
 /**
- * LeetCode #207, medium
+ * LeetCode #210, medium
  *
  * There are a total of n courses you have to take, labeled from 0 to n-1.
 
  Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is
  expressed as a pair: [0,1]
 
- Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+ Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take
+ to finish all courses.
+
+ There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all
+ courses, return an empty array.
 
  Example 1:
 
  Input: 2, [[1,0]]
- Output: true
- Explanation: There are a total of 2 courses to take.
- To take course 1 you should have finished course 0. So it is possible.
+ Output: [0,1]
+ Explanation: There are a total of 2 courses to take. To take course 1 you should have finished
+ course 0. So the correct course order is [0,1] .
  Example 2:
 
- Input: 2, [[1,0],[0,1]]
- Output: false
- Explanation: There are a total of 2 courses to take.
- To take course 1 you should have finished course 0, and to take course 0 you should
- also have finished course 1. So it is impossible.
+ Input: 4, [[1,0],[2,0],[3,1],[3,2]]
+ Output: [0,1,2,3] or [0,2,1,3]
+ Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both
+ courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0.
+ So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
  Note:
 
  The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about how a
@@ -32,27 +36,22 @@ package Graph;
 
 import java.util.*;
 
-public class CourseSchedule {
+public class CourseScheduleTwo {
     /**
      * Solution 1: Recursive DFS
      *
-     * This problem is actually a topological sort problem, which can be approached using DFS. However, comparing
-     * with a standard DFS, there are a few tricky things to note:
+     * Same as Solution 1 in Course Schedule (Problem 207). Add a node to topological sorted order if it has no
+     * incoming edges (indegree[i] == 0).
      *
-     * 1) Node can't be visited unless all edges pointing to it has been visited (course cannot be taken unless all
-     * prerequisites have been fulfilled). We can keep an array that stores the number of edges coming to the ith
-     * node. Whenever we reach the node, decrement this number, and visit it only if it becomes zero.
-     *
-     * 2) We have to start the DFS from a node that has no incoming edges (no prerequisites). Imagine a case where
-     * all courses are dependent on something else which forms a cycle, we cannot finish these courses. However if we
-     * start DFS from any of the node, we can still traverse the graph, which is not correct. In this case, there
-     * should be no nodes we can start our traversal. To achieve this, we just need to start DFS from a node who has
-     * no incoming edges (indegree[i] == 0).
-     *
-     * Time complexity: O(V + E). Space complexity: O(E).
+     * This is Kahn's algorithm.
      */
     class Solution1 {
-        public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] order;
+        int index;
+
+        public int[] findOrder(int numCourses, int[][] prerequisites) {
+            order = new int[numCourses];
+            index = 0;
             List<Integer>[] graph = new List[numCourses];
             int[] indegrees = new int[numCourses];
             for (int[] edge : prerequisites) {
@@ -68,9 +67,9 @@ public class CourseSchedule {
                 }
             }
             for (boolean visit : visited) {
-                if (!visit) return false;
+                if (!visit) return new int[0];
             }
-            return true;
+            return order;
         }
 
         private void dfs(List<Integer>[] graph, int course, int[] indegrees, boolean[] visited) {
@@ -78,6 +77,7 @@ public class CourseSchedule {
             indegrees[course]--; // decrement indegree every time we reach this node
             if (indegrees[course] > 0) return; // however, only visit it when indegree becomes zero
             visited[course] = true;
+            order[index++] = course;
             if (graph[course] != null) {
                 for (int nextCourse : graph[course]) dfs(graph, nextCourse, indegrees, visited);
             }
@@ -87,10 +87,12 @@ public class CourseSchedule {
     /**
      * Solution 2: Iterative BFS
      *
-     * Same idea as Solution 1, except using queue-based BFS.
+     * Same as Solution 2 in Course Schedule (Problem 207). Kahn's algorithm.
      */
     class Solution2 {
-        public boolean canFinish(int numCourses, int[][] prerequisites) {
+        public int[] findOrder(int numCourses, int[][] prerequisites) {
+            int[] order = new int[numCourses];
+            int index = 0;
             List<Integer>[] graph = new List[numCourses];
             int[] indegrees = new int[numCourses];
             for (int[] edge : prerequisites) {
@@ -108,28 +110,33 @@ public class CourseSchedule {
                 int course = queue.poll();
                 if (visited[course] || --indegrees[course] > 0) continue;
                 visited[course] = true;
+                order[index++] = course;
                 if (graph[course] != null) {
                     for (int next : graph[course]) queue.offer(next);
                 }
             }
             for (boolean visit : visited) {
-                if (!visit) return false;
+                if (!visit) return new int[0];
             }
-            return true;
+            return order;
         }
     }
 
     /**
-     * Solution 3: Recursive DFS with cycle detection
+     * Solution 3: Recursive DFS
      *
-     * Use a separate boolean array to keep track of marked nodes in a DFS path to detect cycle. If there is a cycle,
-     * then a topological sort does not exist.
+     * Instead of Kahn's algorithm (which is easier to understand), we can also utilize post-order traversal, and the
+     * reversed post-order is a topological sort.
      *
-     * Note: We stiil need to use visited array to mark all those we are done visiting (i.e. all edges from that node
-     * has been visited) to prevent redundant traversal.
+     * Tricky part is we need to use another boolean array to mark visited nodes in this DFS path to detect cycles.
      */
     class Solution3 {
-        public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] order;
+        int index;
+
+        public int[] findOrder(int numCourses, int[][] prerequisites) {
+            order = new int[numCourses];
+            index = numCourses - 1;
             List<Integer>[] graph = new List[numCourses];
             for (int[] edge : prerequisites) {
                 int from = edge[1], to = edge[0];
@@ -139,23 +146,26 @@ public class CourseSchedule {
             boolean[] visited = new boolean[numCourses];
             boolean[] mark = new boolean[numCourses];
             for (int i = 0; i < numCourses; i++) {
-                if (!visited[i] && !dfs(graph, i, visited, mark)) return false;
+                if (!visited[i]) {
+                    if (!dfs(graph, i, visited, mark)) return new int[0];
+                }
             }
-            return true;
+            return order;
         }
 
         /* Returns false if DFS detects a cycle. */
         private boolean dfs(List<Integer>[] graph, int course, boolean[] visited, boolean[] mark) {
             if (visited[course]) return true;
-            if (mark[course]) return false;
-            mark[course] = true;
+            if (mark[course]) return false; // detects a cycle
+            mark[course] = true; // mark node temporarily, for cycle detection
             if (graph[course] != null) {
                 for (int nextCourse : graph[course]) {
                     if (!dfs(graph, nextCourse, visited, mark)) return false;
                 }
             }
             mark[course] = false;
-            visited[course] = true;
+            visited[course] = true; // mark node permanently
+            order[index--] = course; // post-order, record from back to front
             return true;
         }
     }
