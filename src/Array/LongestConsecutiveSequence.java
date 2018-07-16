@@ -48,7 +48,7 @@ public class LongestConsecutiveSequence {
             return len;
         }
     }
-\
+
 
     /**
      * Solution 2: Elegant solution using hash set
