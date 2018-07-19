@@ -53,8 +53,8 @@ public class MergeIntervals {
                     res.add(last);
                     last = cur;
                 } else {
-                    last = new Interval(last.start, Math.max(last.end, cur.end)); // end point of new interval is max
-                                                                                  // of the two
+                    // end point of new interval is max of the two
+                    last = new Interval(last.start, Math.max(last.end, cur.end));
                 }
             }
             if (last != null) res.add(last); // remember to pick up the remaining last one

@@ -42,7 +42,8 @@ public class SlidingWindowMaximum {
      * Space complexity: O(n) because heap could contain n numbers for worst case (e.g. ascending array).
      */
     class Solution1 {
-        public int[] slidingWindowMaximum(int[] nums, int k) {
+        public int[] maxSlidingWindow(int[] nums, int k) {
+            if (nums == null || nums.length == 0) return new int[0];
             Queue<Integer> queue = new PriorityQueue<>((a, b) -> nums[b] - nums[a]);
             int[] res = new int[nums.length - k + 1];
             for (int r = 0; r < nums.length; r++) {
@@ -56,14 +57,73 @@ public class SlidingWindowMaximum {
     }
 
     /**
-     * Solution 2:
+     * Solution 2: Two passes
+     *
+     * This solution is a bit tricky. We first partition the array into windows of size k, and use two arrays maxL
+     * and maxR to store the maximum value in these windows when we traverse from left and from right. For example,
+     * nums = [1,2,3,4,8,7,6,5,9,10] and k = 4, the partition is [1,2,3,4 | 8,7,6,5 | 9,10] and maxL = [1,2,3,4 | 8,
+     * 8,8,8 | 9,10] and maxR = [4,4,4,4 | 8,7,6,5 | 10,10]. Then for a window starting at index i, the window will
+     * be split by this partition into left and right parts, for example, i = 3 then [1,2,3,(4 | 8,7,6),5 | 9,10].
+     * The max for this sliding window is either max of its left part, which is maxR[i], or max of its right part,
+     * which is maxL[i+k-1]. So we just take max of maxL[i+k-1] and maxR[i] to get the answer.
+     *
+     * Very clever solution, but impossible to come up with at an interview.
+     *
+     * Time complexity: O(n). Space complexity: O(n).
      */
-    // TODO: Linear time solution.
+    class Solution2 {
+        public int[] maxSlidingWindow(int[] nums, int k) {
+            if (nums == null || nums.length == 0) return new int[0];
+            final int n = nums.length;
+            int[] maxL = new int[n], maxR = new int[n];
+            for (int i = 0, max = Integer.MIN_VALUE; i < n; i++) {
+                max = Math.max(max, nums[i]);
+                maxL[i] = max;
+                if ((i+1) % k == 0) max = Integer.MIN_VALUE;
+            }
+            for (int i = n-1, max = Integer.MIN_VALUE; i >= 0; i--) {
+                max = Math.max(max, nums[i]);
+                maxR[i] = max;
+                if (i % k == 0) max = Integer.MIN_VALUE;
+            }
+            int[] res = new int[n-k+1];
+            for (int i = 0; i < res.length; i++) {
+                res[i] = Math.max(maxL[i+k-1], maxR[i]); // note the indexes
+            }
+            return res;
+        }
+    }
+
+    /**
+     * Solution 3: Deque
+     *
+     * We don't have to use a heap. Instead, use a deque as a monotonic queue. We evict indexes from head of deque
+     * that falls out of this window, and we remove index from tail of deque that is smaller than current number (not
+     * a possible candidate). This way, the deque will always store indexes whose corresponding values form a
+     * descending order (hence monotonic here), so that the result[i] is simply the head number of this deque.
+     *
+     * Time complexity: O(n), every index will be offered and polled at most once. Space complexity: O(n).
+     */
+    class Solution3 {
+        public int[] maxSlidingWindow(int[] nums, int k) {
+            if (nums == null || nums.length == 0) return new int[0];
+            Deque<Integer> deque = new ArrayDeque<>();
+            int[] res = new int[nums.length-k+1];
+            for (int i = 0; i < nums.length; i++) {
+                while (!deque.isEmpty() && deque.peekFirst() < i-k+1) deque.pollFirst();
+                while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) deque.pollLast();
+                deque.offerLast(i);
+                if (i-k+1 >= 0) res[i-k+1] = nums[deque.peekFirst()];
+            }
+            return res;
+        }
+    }
 
     void test() {
         int[] nums = {1,3,-1,-3,5,3,6,7};
         int k = 3;
-        System.out.println(Arrays.toString(new Solution1().slidingWindowMaximum(nums, 3)));
+        System.out.println(Arrays.toString(new Solution1().maxSlidingWindow(nums, 3)));
+        System.out.println(Arrays.toString(new Solution2().maxSlidingWindow(nums, 3)));
     }
 
     public static void main(String[] args) {
