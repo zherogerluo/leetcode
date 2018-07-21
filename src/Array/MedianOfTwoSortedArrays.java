@@ -46,7 +46,7 @@ public class MedianOfTwoSortedArrays {
      */
     class Solution1 {
         public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-            if (nums1 == null || nums2 == null) throw new IllegalArgumentException();
+            if (nums1 == null || nums2 == null) return Double.NEGATIVE_INFINITY;
             if (nums1.length > nums2.length) return findMedianSortedArrays(nums2, nums1); // makes sure nums1 is shorter
             final int m = nums1.length, n = nums2.length;
             int l = 0, r = m; // note that r is not m-1
