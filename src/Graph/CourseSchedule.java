@@ -125,7 +125,7 @@ public class CourseSchedule {
      * Use a separate boolean array to keep track of marked nodes in a DFS path to detect cycle. If there is a cycle,
      * then a topological sort does not exist.
      *
-     * Note: We stiil need to use visited array to mark all those we are done visiting (i.e. all edges from that node
+     * Note: We still need to use visited array to mark all those we are done visiting (i.e. all edges from that node
      * has been visited) to prevent redundant traversal.
      */
     class Solution3 {

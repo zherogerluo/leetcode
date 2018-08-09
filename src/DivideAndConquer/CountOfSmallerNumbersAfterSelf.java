@@ -55,7 +55,7 @@ public class CountOfSmallerNumbersAfterSelf {
      *
      * We can use merge sort with some modification: During the merging process, if any number on the right is being
      * swapped to left side, we know that for each number on the left that have not been merged, their counts will
-     * increment one. To do this, we sorting the indexes instead of numbers, and keep a temporary count during each
+     * increment one. To do this, we sort the indexes instead of numbers, and keep a temporary count during each
      * level of merging. Once right-to-left swap happens, we increment the temporary count; For every left number
      * that is settled, we finalized its count by adding the temporary count to the old count.
      *
@@ -91,8 +91,8 @@ public class CountOfSmallerNumbersAfterSelf {
                     count++; // increment temporary count
                 } else {
                     // left number is smaller than right
+                    counts[left[i]] += count; // finalize count first
                     indexes[start++] = left[i++];
-                    counts[left[i]] += count; // finalize count
                 }
             }
             while (i < left.length) {
@@ -107,8 +107,67 @@ public class CountOfSmallerNumbersAfterSelf {
 
     /**
      * Solution 3: Binary search tree
+     *
+     * A natural idea to improve the O(n^2) solution is to keep a sorted data structure as we go from right to left.
+     * A good choice is building a BST where each node contains information about the smaller count. For each node,
+     * we keep track of smaller nodes only in this subtree, and also a count of duplicates appeared. Each time we
+     * insert a new value, if we go left, the count needs to be incremented, if we go right, we carry current count
+     * and duplicates to next level recursively.
+     *
+     * Tricky part is we need to deal with duplicates explicitly, and return different value for left/right branches
+     * (basically carry value if going right but not if going left).
+     *
+     * Time complexity: O(n * log(n)) average, O(n^2) worst case. Space complexity: O(n).
      */
-    // TODO
+    class Solution3 {
+        class Node {
+            int val;
+            int count; // number of left branch nodes (smaller than this node as root)
+            int dup; // number of duplicate nodes
+            Node left, right;
+
+            Node(int val) {
+                this.val = val;
+                count = 0;
+                dup = 1; // self as a duplicate
+            }
+
+            /* Returns the number of nodes smaller than val for a tree rooted at this node */
+            int insert(int val) {
+                if (val > this.val) {
+                    if (right == null) {
+                        right = new Node(val);
+                        return count + dup; // need to include all left branch count and selves
+                    } else {
+                        return count + dup + right.insert(val); // need to include all left branch count and selves
+                    }
+                } else if (val < this.val) {
+                    count++; // increment count since a new node smaller than this is being added
+                    if (left == null) {
+                        left = new Node(val);
+                        return 0;
+                    } else {
+                        return left.insert(val);
+                    }
+                } else {
+                    // duplicate node
+                    dup++;
+                    return count;
+                }
+            }
+        }
+
+        public List<Integer> countSmaller(int[] nums) {
+            List<Integer> res = new LinkedList<>();
+            if (nums == null || nums.length == 0) return res;
+            res.add(0);
+            Node root = new Node(nums[nums.length-1]);
+            for (int i = nums.length-2; i >= 0; i--) {
+                res.add(0, root.insert(nums[i]));
+            }
+            return res;
+        }
+    }
 
     /**
      * Solution 4: Segment tree

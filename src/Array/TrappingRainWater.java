@@ -22,7 +22,7 @@ public class TrappingRainWater {
      * Solution 1: Stack
      *
      * Use a stack to remember index of walls. For a new wall, pop the stack until we see a higher wall, for each
-     * poped wall, we collect water between it and the current wall.
+     * popped wall, we collect water between it and the current wall.
      *
      * This algorithm will always reflect the actual water collected, i.e. result at index i is always valid for the
      * sub-array height[0-i]. One way of illustrating this algorithm is that, every time we collect water, we fill
