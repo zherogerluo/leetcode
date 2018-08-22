@@ -24,7 +24,7 @@ public class FirstUniqueCharacterInAString {
      * appearances for every char, and return the first one whose count is 1. Note we don't want to return count == 0
      * ones.
      *
-     * Time complexity: O(n). Space complexity: O(n).
+     * Time complexity: O(n). Space complexity: O(1).
      */
     class Solution1 {
         public int firstUniqChar(String s) {
