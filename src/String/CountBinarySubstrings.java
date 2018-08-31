@@ -28,4 +28,31 @@
 package String;
 
 public class CountBinarySubstrings {
+    /**
+     * Solution 1:
+     *
+     * Count last seen char and currently seen char, they are 00..11 or 11..00 sequences. Then the number of valid
+     * substrings has to be the minimum of the two counts. For example, 0001111, counts are 3 and 4, and the valid
+     * substrings are 000111, 0011 and 01. It is basically a greedy algorithm that gets the longest valid substring
+     * every time, and reduce to shorter valid substring by trimming the leading and trailing chars.
+     *
+     * Tricky part is to collect the dangling counts in the end, and properly initialize current count when
+     * encountering a new char (initial count should be 1, not 0).
+     */
+    class Solution1 {
+        public int countBinarySubstrings(String s) {
+            int lastCount = 0, curCount = 0, res = 0; // the initial value of curCount shall be 0 here
+            char curChar = s.charAt(0);
+            for (char c: s.toCharArray()) {
+                if (c == curChar) curCount++;
+                else {
+                    res += Math.min(lastCount, curCount);
+                    curChar = c;
+                    lastCount = curCount;
+                    curCount = 1; // initial value is not zero
+                }
+            }
+            return res + Math.min(lastCount, curCount); // need to collect dangling count
+        }
+    }
 }
