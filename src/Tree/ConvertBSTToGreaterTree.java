@@ -40,9 +40,9 @@ public class ConvertBSTToGreaterTree {
 
         /* Performs reverse-order traverse and returns current sum. Parameter sum is the sum seen so far. */
         private int reverseOrder(TreeNode root, int sum) {
-            if (root == null) return sum;
-            root.val += reverseOrder(root.right, sum);
-            return reverseOrder(root.left, root.val); // root value becomes the new sum
+            if (root == null) return sum; // if null, we don't update current sum
+            root.val += reverseOrder(root.right, sum); // sum up right branch, update current root
+            return reverseOrder(root.left, root.val); // now root value becomes the new sum, apply to left branch
         }
     }
 
