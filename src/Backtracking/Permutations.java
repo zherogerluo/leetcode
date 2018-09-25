@@ -29,7 +29,7 @@ public class Permutations {
      * size. One trick is to use a boolean array to remember which one has been used, that way we don't have to use
      * List::contains method which costs additional time.
      *
-     * Time complexity: O(n!). Space complexity: O(n!). We will have n! permutations.
+     * Time complexity: O(n! * n). Space complexity: O(n! * n). We will have n! permutations and each will be n length.
      */
     class Solution1 {
         public List<List<Integer>> permute(int[] nums) {
@@ -40,7 +40,7 @@ public class Permutations {
         }
 
         private void permute(int[] nums, boolean[] used, List<Integer> list, List<List<Integer>> res) {
-            if (list.size() == nums.length) res.add(new ArrayList<Integer>(list));
+            if (list.size() == nums.length) res.add(new ArrayList<>(list));
             for (int i = 0; i < nums.length; i++) {
                 if (!used[i]) {
                     used[i] = true;
