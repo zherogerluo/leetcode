@@ -17,6 +17,8 @@
 
 package Tree;
 
+import java.util.*;
+
 public class SerializeAndDeserializeBST {
     /**
      * Solution 1: Recursive pre-order
@@ -82,6 +84,53 @@ public class SerializeAndDeserializeBST {
 
     /**
      * Solution 2: Iterative pre-order
+     *
+     * Iterative, stack-based pre-order serialization is straightforward. Deserialization is however a bit tricky. We
+     * also use a stack to store partially processed roots. If next number is smaller, it should go to the left child
+     * and pushed into stack; If next number is larger, it however does not necessarily go to the right branch of the
+     * stack top node. Instead we need to keep popping roots from stack until we find the stack top contains a even
+     * larger number, then we can insert current number to the right branch of last popped root. Note that the popped
+     * root is finished, because it has both left and right children set.
      */
-    // TODO
+    public class Codec2 {
+
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            if (root == null) return "";
+            StringBuilder sb = new StringBuilder();
+            Stack<TreeNode> stack = new Stack<>();
+            stack.push(root);
+            while (!stack.isEmpty()) {
+                TreeNode node = stack.pop();
+                sb.append(String.valueOf(node.val)).append(" ");
+                if (node.right != null) stack.push(node.right);
+                if (node.left != null) stack.push(node.left);
+            }
+            return sb.deleteCharAt(sb.length()-1).toString();
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            if (data == null || data.equals("")) return null;
+            String[] tokens = data.split(" ");
+            Stack<TreeNode> stack = new Stack<>();
+            TreeNode root = new TreeNode(Integer.parseInt(tokens[0]));
+            stack.push(root);
+            for (int i = 1; i < tokens.length; i++) {
+                TreeNode cur = new TreeNode(Integer.parseInt(tokens[i]));
+                if (cur.val < stack.peek().val) stack.peek().left = cur;
+                else {
+                    TreeNode parent = null;
+                    // use while loop to find a root whose value is immediately smaller than current node value,
+                    // which is the correct insertion point
+                    while (!stack.isEmpty() && cur.val > stack.peek().val) {
+                        parent = stack.pop();
+                    }
+                    parent.right = cur;
+                }
+                stack.push(cur);
+            }
+            return root;
+        }
+    }
 }

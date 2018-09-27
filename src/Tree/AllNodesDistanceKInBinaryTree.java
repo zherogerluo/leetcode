@@ -87,7 +87,109 @@ public class AllNodesDistanceKInBinaryTree {
      * Solution 2: Graph BFS
      *
      * The idea is to convert the tree into an undirected graph, then the distance K search would be a
-     * straightforward BFS.
+     * straightforward BFS. During BFS, use a hash set to remember visited nodes to avoid loops (always to this for
+     * both directed and undirected graphs!)
+     *
+     * Time complexity: O(n). Space complexity: O(log(n)) average.
      */
-    // TODO
+    class Solution2 {
+        public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+            Map<TreeNode, List<TreeNode>> graph = new HashMap<>();
+            makeGraph(root, graph);
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(target);
+            Set<TreeNode> visited = new HashSet<>();
+            visited.add(target); // don't forget to add target to visited
+            while (!queue.isEmpty()) {
+                if (K == 0) {
+                    List<Integer> result = new ArrayList<>();
+                    for (TreeNode node : queue) result.add(node.val);
+                    return result;
+                }
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
+                    TreeNode cur = queue.poll();
+                    if (!graph.containsKey(cur)) continue; // check existence in graph, deals with single node tree
+                    for (TreeNode next : graph.get(cur)) {
+                        if (!visited.contains(next)) { // add to queue only if neighbor node is not visited
+                            queue.offer(next);
+                            visited.add(next);
+                        }
+                    }
+                }
+                K--;
+            }
+            return new ArrayList<>();
+        }
+
+        private void makeGraph(TreeNode root, Map<TreeNode, List<TreeNode>> graph) {
+            if (root == null || root.left == null && root.right == null) return;
+            if (!graph.containsKey(root)) graph.put(root, new ArrayList<>());
+            if (root.left != null) {
+                if (!graph.containsKey(root.left)) graph.put(root.left, new ArrayList<>());
+                graph.get(root).add(root.left);
+                graph.get(root.left).add(root);
+            }
+            if (root.right != null) { // not "else" clause
+                if (!graph.containsKey(root.right)) graph.put(root.right, new ArrayList<>());
+                graph.get(root).add(root.right);
+                graph.get(root.right).add(root);
+            }
+            // recursive calls
+            makeGraph(root.left, graph);
+            makeGraph(root.right, graph);
+        }
+    }
+
+    /**
+     * Solution 3: Graph BFS
+     *
+     * Same as Solution 2, except using set to store neighbors, and trim the graph as we proceed through BFS. No need
+     * for visited set now.
+     */
+    class Solution3 {
+        public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+            Map<TreeNode, Set<TreeNode>> graph = new HashMap<>();
+            makeGraph(root, graph);
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(target);
+            while (!queue.isEmpty()) {
+                if (K == 0) {
+                    List<Integer> result = new ArrayList<>();
+                    for (TreeNode node : queue) result.add(node.val);
+                    return result;
+                }
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
+                    TreeNode cur = queue.poll();
+                    if (!graph.containsKey(cur)) continue;
+                    Set<TreeNode> neighbors = graph.get(cur);
+                    for (TreeNode neighbor : neighbors) {
+                        queue.offer(neighbor);
+                        graph.get(neighbor).remove(cur); // remove edge: neighbor -> cur
+                    }
+                    graph.remove(cur); // remove all edges: cur -> neighbor
+                }
+                K--;
+            }
+            return new ArrayList<>();
+        }
+
+        private void makeGraph(TreeNode root, Map<TreeNode, Set<TreeNode>> graph) {
+            if (root == null || root.left == null && root.right == null) return;
+            if (!graph.containsKey(root)) graph.put(root, new HashSet<>());
+            if (root.left != null) {
+                if (!graph.containsKey(root.left)) graph.put(root.left, new HashSet<>());
+                graph.get(root).add(root.left);
+                graph.get(root.left).add(root);
+            }
+            if (root.right != null) {
+                if (!graph.containsKey(root.right)) graph.put(root.right, new HashSet<>());
+                graph.get(root).add(root.right);
+                graph.get(root.right).add(root);
+            }
+            makeGraph(root.left, graph);
+            makeGraph(root.right, graph);
+        }
+    }
 }

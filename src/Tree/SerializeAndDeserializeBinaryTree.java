@@ -132,9 +132,9 @@ public class SerializeAndDeserializeBinaryTree {
     }
 
     /**
-     * Solution 3: Inorder, iterative
+     * Solution 3: Level-order, iterative
      *
-     * Typical inorder traversal, but like Solution 2, we need to explicitly take care of null nodes. However for
+     * Typical level-order traversal, but like Solution 2, we need to explicitly take care of null nodes. However for
      * deserialization we don't have to do this because the null nodes won't have any children shown up in the
      * serialized results, so we don't have to remember them in the queue.
      */
