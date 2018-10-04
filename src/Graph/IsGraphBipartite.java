@@ -153,6 +153,37 @@ public class IsGraphBipartite {
 
     /**
      * Solution 4: Union-Find
+     *
+     * For every node, union the neighbors. If node and any neighbor belong to same set, return false. This method
+     * strictly follows the definition of bipartite. In practice, union-find can be improved by path compression and
+     * weighted concatenation.
+     *
+     * Time complexity: O(E + V). Space complexity: O(V).
      */
-    // TODO
+    class Solution4 {
+        public boolean isBipartite(int[][] graph) {
+            final int n = graph.length;
+            int[] parent = new int[n];
+            for (int i = 0; i < n; i++) parent[i] = i;
+            for (int i = 0; i < n; i++) {
+                for (int j : graph[i]) {
+                    if (find(i, parent) == find(j, parent)) return false;
+                }
+                union(graph[i], parent); // union the neighbors
+            }
+            return true;
+        }
+
+        private int find(int i, int[] parent) {
+            if (parent[i] != i) parent[i] = find(parent[i], parent);
+            return parent[i];
+        }
+
+        /* Union the entire array of nodes */
+        private void union(int[] nodes, int[] parent) {
+            for (int i = 1; i < nodes.length; i++) {
+                parent[find(nodes[i], parent)] = find(nodes[i-1], parent);
+            }
+        }
+    }
 }
