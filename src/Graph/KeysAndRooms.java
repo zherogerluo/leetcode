@@ -66,7 +66,7 @@ public class KeysAndRooms {
     /**
      * Solution 2: BFS
      *
-     * Typical DFS. Note that we need to mark node as we pull node into the queue, otherwise the queue will have
+     * Typical BFS. Note that we need to mark node as we pull node into the queue, otherwise the queue will have
      * replicates which can degrade performance and even cause bugs. Rule of thumb: Mark node as visited as soon as
      * we visit this node and it is not marked yet. True for both DFS and BFS.
      *
