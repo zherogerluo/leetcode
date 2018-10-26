@@ -83,6 +83,8 @@ public class OnesAndZeroes {
      *
      * Same as in Problem 416, we need to iterate from back of the DP array in order to avoid using the just updated
      * value. We want to always use values in the last pass.
+     *
+     * Time complexity: O(k * m * n) where k is the length of strs. Space complexity: O(m * n).
      */
     class Solution2 {
         public int findMaxForm(String[] strs, int m, int n) {
