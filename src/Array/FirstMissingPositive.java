@@ -2,22 +2,22 @@
  * LeetCode #41, hard
  *
  * Given an unsorted integer array, find the smallest missing positive integer.
-
- Example 1:
-
- Input: [1,2,0]
- Output: 3
- Example 2:
-
- Input: [3,4,-1,1]
- Output: 2
- Example 3:
-
- Input: [7,8,9,11,12]
- Output: 1
- Note:
-
- Your algorithm should run in O(n) time and uses constant extra space.
+ *
+ * Example 1:
+ *
+ * Input: [1,2,0]
+ * Output: 3
+ * Example 2:
+ *
+ * Input: [3,4,-1,1]
+ * Output: 2
+ * Example 3:
+ *
+ * Input: [7,8,9,11,12]
+ * Output: 1
+ * Note:
+ *
+ * Your algorithm should run in O(n) time and uses constant extra space.
  */
 
 package Array;
@@ -32,7 +32,7 @@ public class FirstMissingPositive {
      *
      * Tricky part: Must skip the non-positive numbers, AND the duplicated numbers.
      *
-     * Time complexity: O(n * log(n)). Space complexity: O(1).f
+     * Time complexity: O(n * log(n)). Space complexity: O(1).
      */
     class Solution1 {
         public int firstMissingPositive(int[] nums) {
@@ -76,6 +76,48 @@ public class FirstMissingPositive {
                 if (nums[i] != i + 1) return i + 1;
             }
             return nums.length + 1;
+        }
+    }
+
+    /**
+     * Solution 3: Sorting
+     *
+     * Simpler sorting solution than Solution 1.
+     */
+    class Solution3 {
+        public int firstMissingPositive(int[] nums) {
+            Arrays.sort(nums);
+            int target = 1;
+            for (int num : nums) {
+                if (num <= 0) continue;
+                if (num > target) return target;
+                else target = num + 1; // note it is not target++
+            }
+            return target;
+        }
+    }
+
+    /**
+     * Solution 4: Hash set
+     *
+     * Use hash set to store all appeared positive number. Increment result from 1 until it is not found in the set.
+     * Straightforward.
+     *
+     * Time complexity: O(n). Space complexity: O(n).
+     */
+    class Solution4 {
+        public int firstMissingPositive(int[] nums) {
+            Set<Integer> set = new HashSet<>();
+            for (int num : nums) {
+                if (num > 0) set.add(num);
+            }
+            int result = 1;
+            for (int num : nums) {
+                if (num <= 0) continue;
+                if (!set.contains(result)) return result;
+                result++;
+            }
+            return result;
         }
     }
 }
