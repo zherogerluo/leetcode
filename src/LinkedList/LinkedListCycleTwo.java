@@ -37,6 +37,8 @@
  * Follow up: Can you solve it using O(1) (i.e. constant) memory?
  */
 
+package LinkedList;
+
 public class LinkedListCycleTwo {
     /**
      * Solution 1: Two pointers
